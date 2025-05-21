@@ -2,6 +2,12 @@ name: product-service
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - 'helm/product-service'
+      - 'services/product-service'
 
 jobs:
   build-and-push:

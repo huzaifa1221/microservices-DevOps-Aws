@@ -2,6 +2,12 @@ name: api-gateway
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - 'helm/api-gateway'
+      - 'services/api-gateway'
 
 jobs:
   build-and-push:

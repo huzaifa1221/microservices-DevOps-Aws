@@ -2,6 +2,12 @@ name: microservice-ui
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - 'helm/microservice-ui'
+      - 'services/microservice-ui'
 
 jobs:
   build-and-push:

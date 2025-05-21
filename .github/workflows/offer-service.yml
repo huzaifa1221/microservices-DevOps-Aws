@@ -2,6 +2,12 @@ name: offer-service
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - 'helm/offer-service'
+      - 'services/offer-service'
 
 jobs:
   build-and-push:
