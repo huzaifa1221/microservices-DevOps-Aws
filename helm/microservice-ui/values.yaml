@@ -49,7 +49,7 @@ ingress:
   annotations: 
   hosts:
     # - host: example.com
-    - host: a2fb90386d7a24a129b6461ae1b78e72-877735785.us-east-1.elb.amazonaws.com
+    - host: a4e033a052e964b129402ba93d8e1610-770423681.us-east-1.elb.amazonaws.com
       paths:
         - path: /product-service/
           pathType: Prefix
