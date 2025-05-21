@@ -45,7 +45,7 @@ resource "aws_eks_node_group" "eks_nodes" {
 
   instance_types = ["t4g.medium"]  # ARM-based instance (Graviton)
 
-  ami_type = "AL2_ARM_64"  # Tells EKS to use the ARM 64-bit optimized AMI
+  ami_type = "amazon-linux-2023/arm64/standard"  # Tells EKS to use the ARM 64-bit optimized AMI
 
   depends_on = [
     aws_eks_cluster.eks_cluster,
