@@ -40,12 +40,12 @@ resource "aws_eks_node_group" "eks_nodes" {
   scaling_config {
     desired_size = 2
     max_size     = 2
-    min_size     = 1
+    min_size     = 2
   }
 
   instance_types = ["t4g.medium"]  # ARM-based instance (Graviton)
 
-  ami_type = "AL2023_ARM_64_STANDARD"  # Tells EKS to use the ARM 64-bit optimized AMI
+  ami_type = "AL2023_x86_64_STANDARD"  # Tells EKS to use the ARM 64-bit optimized AMI
 
   depends_on = [
     aws_eks_cluster.eks_cluster,
