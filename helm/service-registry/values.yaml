@@ -5,10 +5,10 @@
 replicaCount: 1
 
 image:
-  repository: 010526286234.dkr.ecr.us-east-1.amazonaws.com/microservices
+  repository: ""
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "service-registry"
+  tag: ""
 
 imagePullSecrets: []
 nameOverride: ""
