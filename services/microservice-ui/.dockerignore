@@ -1,0 +1,21 @@
+# Node modules - will be reinstalled inside the container
+node_modules
+npm-debug.log
+
+# Build artifacts
+dist
+build
+tmp
+temp
+
+# OS/system files
+.DS_Store
+Thumbs.db
+
+# Git files
+.git
+.gitignore
+
+# Editor/IDE configs
+.vscode
+.idea

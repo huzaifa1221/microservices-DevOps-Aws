@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "rabbit-mq.fullname" . }}
+  labels:
+    {{- include "rabbit-mq.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    {{- range .Values.service.ports }}
+    - name: {{ .name }}
+      port: {{ .port }}
+      targetPort: {{ .targetPort }}
+    {{- end }}
+    # - port: {{ .Values.service.port }}
+    #   targetPort: http
+    #   protocol: TCP
+    #   name: http
+  selector:
+    {{- include "rabbit-mq.selectorLabels" . | nindent 4 }}
