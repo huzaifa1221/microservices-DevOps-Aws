@@ -6,10 +6,6 @@ on:
 jobs:
   build-and-push:
   
-    defaults:
-       run:
-         working-directory: services/microservice-ui
-     
     runs-on: ubuntu-latest
 
     steps:
@@ -33,5 +29,27 @@ jobs:
           ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY }}
           IMAGE_TAG: microservice-ui
         run: |
-          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG services/microservice-ui
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+
+      - name: Set up kubectl
+        uses: aws-actions/eks-setup-kubectl@v2
+        with:
+          cluster-name: ${{ secrets.EKS_CLUSTER_NAME }}
+          region: ${{ secrets.AWS_REGION }}
+
+      - name: Install Helm
+        uses: azure/setup-helm@v3
+
+      - name: Deploy using Helm
+        env:
+          ECR_REGISTRY: ${{ secrets.ECR_REGISTRY }}
+          ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY }}
+          IMAGE_TAG: microservice-ui
+          # KUBERNETES_NAMESPACE: ${{ secrets.KUBERNETES_NAMESPACE }}
+          HELM_RELEASE_NAME: microservice-ui
+          HELM_CHART_PATH: helm/microservice-ui
+        run: |
+          helm upgrade --install $HELM_RELEASE_NAME $HELM_CHART_PATH \
+            --set image.repository=$ECR_REGISTRY/$ECR_REPOSITORY \
+            --set image.tag=$IMAGE_TAG
