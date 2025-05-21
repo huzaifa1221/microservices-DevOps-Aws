@@ -37,10 +37,4 @@ resource "aws_main_route_table_association" "main" {
   route_table_id = aws_route_table.rt.id
 }
 
-# resource "aws_route_table_association" "a" {
-#   count          = 2
-#   subnet_id      = aws_subnet.eks_subnet[count.index].id
-#   route_table_id = aws_route_table.rt.id
-# }
-
 data "aws_availability_zones" "available" {}
