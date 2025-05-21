@@ -29,7 +29,7 @@ jobs:
           ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY }}
           IMAGE_TAG: api-gateway
         run: |
-          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG services/microservice-ui
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG services/api-gateway
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
 
       - name: Update kube config
@@ -44,8 +44,8 @@ jobs:
           ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY }}
           IMAGE_TAG: api-gateway
           # KUBERNETES_NAMESPACE: ${{ secrets.KUBERNETES_NAMESPACE }}
-          HELM_RELEASE_NAME: microservice-ui
-          HELM_CHART_PATH: helm/microservice-ui
+          HELM_RELEASE_NAME: api-gateway
+          HELM_CHART_PATH: helm/api-gateway
         run: |
           helm upgrade --install $HELM_RELEASE_NAME $HELM_CHART_PATH \
             --set image.repository=$ECR_REGISTRY/$ECR_REPOSITORY \
