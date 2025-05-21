@@ -43,7 +43,7 @@ resource "aws_eks_node_group" "eks_nodes" {
     min_size     = 2
   }
 
-  instance_types = ["t4g.medium"]  # ARM-based instance (Graviton)
+  instance_types = ["t2.medium"]  # ARM-based instance (Graviton)
 
   ami_type = "AL2023_x86_64_STANDARD"  # Tells EKS to use the ARM 64-bit optimized AMI
 
