@@ -6,8 +6,8 @@ on:
     branches:
       - main
     paths:
-      - 'helm/service-registry'
-      - 'services/service-registry'
+      - 'helm/service-registry/**'
+      - 'services/service-registry/**'
 
 jobs:
   build-and-push:

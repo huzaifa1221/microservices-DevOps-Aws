@@ -6,8 +6,8 @@ on:
     branches:
       - main
     paths:
-      - 'helm/api-gateway'
-      - 'services/api-gateway'
+      - 'helm/api-gateway/**'
+      - 'services/api-gateway/**'
 
 jobs:
   build-and-push:

@@ -6,8 +6,8 @@ on:
     branches:
       - main
     paths:
-      - 'helm/offer-service'
-      - 'services/offer-service'
+      - 'helm/offer-service/**'
+      - 'services/offer-service/**'
 
 jobs:
   build-and-push:
