@@ -115,3 +115,4 @@ env:
     value: "guest"
   - name: SPRING_RABBITMQ_PASSWORD
     value: "guest"
+    
