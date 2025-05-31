@@ -1,3 +1,24 @@
+# DevOps and Infrastructure Instructions -
+
+# Development Instructions
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # Guideline how to read this document
 Read this documentation with full concentration and understand clearly how the application working. I tried to describe 
 as simple as possible. No need to run the application or understand the code initially. **Read the documentation and understand 
