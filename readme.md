@@ -17,5 +17,9 @@
 
 ![ingress Screenshot](readme-images/ingress-arch.png)
 
+#### Kubernetes Architecture -
+
+![k8s Screenshot](readme-images/kubernetes-arch.png)
+
 # Development Instructions
 - [Development Instructions](development-readme.md)
