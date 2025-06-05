@@ -2,7 +2,7 @@
 
 
 
-#### This is a Full-Stack Application that runs in Docker containers and is deployed to EKS cluster using helm charts whenever ci/cd pipeline gets triggered.
+#### This is a basic e-commerce Application based upon microservices that runs in Docker containers and is deployed to EKS cluster using helm charts whenever ci/cd pipeline gets triggered.
 
 #### Features -
 
