@@ -13,6 +13,7 @@
 - The entire Infrastructure required for the application is provisioned using Terraform on AWS. (EKS, ECR, IAM roles and policies, VPC, SUBNETS, INTERNET GATEWAY, ROUTE TABLES)
 - The Terraform uses s3 backed to persist tfstate file.
 
+#### Ingress Architecture -
 
 # Development Instructions
 - [Development Instructions](development-readme.md)
