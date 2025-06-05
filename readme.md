@@ -15,7 +15,7 @@
 
 #### Ingress Architecture -
 
-![ingress Screenshot](readme-images/ingress.png)
+![ingress Screenshot](readme-images/ingress-arch.png)
 
 # Development Instructions
 - [Development Instructions](development-readme.md)
