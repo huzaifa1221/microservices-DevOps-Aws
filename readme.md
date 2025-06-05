@@ -1,6 +1,10 @@
 # DevOps and Infrastructure Instructions -
 
+
+
 #### This is a Full-Stack Application that runs in Docker containers and is deployed to EKS cluster using helm charts whenever ci/cd pipeline gets triggered.
+
+#### Features -
 
 - Size of Docker Images are decreased by ~80% using multi-stage docker builds and appropriate base image.
 - Helm charts are used for packaging.
