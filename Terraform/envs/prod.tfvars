@@ -4,11 +4,11 @@ cluster_name = "demo-eks-cluster"
 subnets = {
   subnet-1 = {
     cidr_block        = "10.0.16.0/20"
-    availability_zone = "use1-az1"
+    availability_zone = "us-east-1b"
   }
   subnet-2 = {
     cidr_block        = "10.0.32.0/20"
-    availability_zone = "use1-az2"
+    availability_zone = "us-east-1c"
   }
 }
 node_group_scaling = {
