@@ -33,10 +33,10 @@ jobs:
       run: terraform init
 
     - name: Terraform Plan
-      run: terraform plan
+      run: terraform plan --var-file=envs/${{ github.event.inputs.environment }}.tfvars
 
     - name: Terraform Apply
-      run: terraform apply --auto-approve --var-file=envs/${{ github.event.inputs.environment }}.tfvars
+      run: terraform apply --var-file=envs/${{ github.event.inputs.environment }}.tfvars --auto-approve 
 
     env:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
