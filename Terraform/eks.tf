@@ -4,7 +4,7 @@ resource "aws_eks_cluster" "eks_cluster" {
   version = "1.32"
 
   vpc_config {
-    subnet_ids = aws_subnet.eks_subnet[*].id
+    subnet_ids = [for s in aws_subnet.eks_subnet : s.id]
   }
 
   depends_on = [
@@ -33,14 +33,19 @@ resource "aws_eks_addon" "coredns" {
 
 resource "aws_eks_node_group" "eks_nodes" {
   cluster_name    = aws_eks_cluster.eks_cluster.name
-  node_group_name = "${var.cluster_name}-node-group"
+  node_group_name = "${var.cluster_name}-${var.environment}"
   node_role_arn   = aws_iam_role.eks_node_role.arn
-  subnet_ids      = aws_subnet.eks_subnet[*].id
+  subnet_ids      = [for s in aws_subnet.eks_subnet : s.id]
 
   scaling_config {
-    desired_size = 2
-    max_size     = 2
-    min_size     = 2
+    desired_size = var.node_group_scaling.desired_size
+    max_size     = var.node_group_scaling.max_size
+    min_size     = var.node_group_scaling.min_size
+  }
+
+  labels = {
+    environment = var.environment
+    role        = "worker"
   }
 
   instance_types = ["t2.medium"]  # ARM-based instance (Graviton)

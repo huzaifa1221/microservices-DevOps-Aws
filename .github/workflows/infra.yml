@@ -2,11 +2,14 @@ name: Terraform Deploy
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - main
-    paths:
-      - 'terraform/**'
+    inputs:
+      environment:
+        description: "Choose environment"
+        required: true
+        type: choice
+        options:
+          - dev
+          - prod
 
 jobs:
   Infrastructure-Deployment:
@@ -33,7 +36,7 @@ jobs:
       run: terraform plan
 
     - name: Terraform Apply
-      run: terraform apply --auto-approve
+      run: terraform apply --auto-approve --var-file=envs/${{ github.event.inputs.environment }}.tfvars
 
     env:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
