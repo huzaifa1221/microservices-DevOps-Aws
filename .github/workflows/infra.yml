@@ -32,6 +32,9 @@ jobs:
     - name: Terraform Init
       run: terraform init
 
+    - name: Select workspace
+      run: terraform workspace select ${{ github.event.inputs.environment }}
+
     - name: Terraform Plan
       run: terraform plan --var-file=envs/${{ github.event.inputs.environment }}.tfvars
 
