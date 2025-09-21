@@ -31,27 +31,54 @@ resource "aws_eks_addon" "coredns" {
   depends_on = [aws_eks_cluster.eks_cluster]
 }
 
-resource "aws_eks_node_group" "eks_nodes" {
+# dev 
+resource "aws_eks_node_group" "eks_nodes_dev" {
   cluster_name    = aws_eks_cluster.eks_cluster.name
-  node_group_name = "${var.cluster_name}-${var.environment}"
+  node_group_name = "${var.cluster_name}-ng-dev"
   node_role_arn   = aws_iam_role.eks_node_role.arn
-  subnet_ids      = [for s in aws_subnet.eks_subnet : s.id]
-
+  subnet_ids      = [
+                      for s in aws_subnet.eks_subnet : s.id
+                      if s.tags["env"] == "dev"
+                    ]
   scaling_config {
-    desired_size = var.node_group_scaling.desired_size
-    max_size     = var.node_group_scaling.max_size
-    min_size     = var.node_group_scaling.min_size
+    desired_size = 1
+    max_size     = 2
+    min_size     = 1
   }
-
   labels = {
-    environment = var.environment
+    environment = "dev"
     role        = "worker"
   }
+  instance_types = ["t2.medium"]
+  ami_type = "AL2023_x86_64_STANDARD"
+  depends_on = [
+    aws_eks_cluster.eks_cluster,
+    aws_iam_role_policy_attachment.worker_node_policy,
+    aws_iam_role_policy_attachment.cni_policy,
+    aws_iam_role_policy_attachment.registry_policy
+  ]
+}
 
-  instance_types = ["t2.medium"]  # ARM-based instance (Graviton)
-
-  ami_type = "AL2023_x86_64_STANDARD"  # Tells EKS to use the ARM 64-bit optimized AMI
-
+# prod
+resource "aws_eks_node_group" "eks_nodes_prod" {
+  cluster_name    = aws_eks_cluster.eks_cluster.name
+  node_group_name = "${var.cluster_name}-ng-prod"
+  node_role_arn   = aws_iam_role.eks_node_role.arn
+  subnet_ids      = [
+                      for s in aws_subnet.eks_subnet : s.id
+                      if s.tags["env"] == "prod"
+                    ]
+  scaling_config {
+    desired_size = 2
+    max_size     = 3
+    min_size     = 1
+  }
+  labels = {
+    environment = "prod"
+    role        = "worker"
+  }
+  instance_types = ["t2.medium"]
+  ami_type = "AL2023_x86_64_STANDARD"
   depends_on = [
     aws_eks_cluster.eks_cluster,
     aws_iam_role_policy_attachment.worker_node_policy,

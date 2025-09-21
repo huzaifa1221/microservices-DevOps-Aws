@@ -14,7 +14,8 @@ resource "aws_subnet" "eks_subnet" {
   availability_zone       = each.value.availability_zone
   map_public_ip_on_launch = true
   tags = {
-    Name = "eks-subnet-${each.key}-${var.environment}"
+    Name = "eks-subnet-${each.key}"
+    env  = each.value.env
   }
 }
 
