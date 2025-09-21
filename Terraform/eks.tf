@@ -25,9 +25,15 @@ resource "aws_eks_addon" "kube_proxy" {
   depends_on = [aws_eks_cluster.eks_cluster]
 }
 
+data "aws_eks_addon_version" "coredns" {
+  addon_name         = "coredns"
+  kubernetes_version = aws_eks_cluster.eks_cluster.version
+  most_recent        = true
+}
 resource "aws_eks_addon" "coredns" {
   cluster_name = aws_eks_cluster.eks_cluster.name
   addon_name   = "coredns"
+  addon_version  = data.aws_eks_addon_version.coredns.version
   depends_on = [aws_eks_cluster.eks_cluster]
 }
 
