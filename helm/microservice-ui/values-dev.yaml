@@ -85,10 +85,10 @@ resources:
   # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
   limits:
     cpu: 200m
-    memory: 256Mi
+    memory: 512Mi
   requests:
     cpu: 200m
-    memory: 256Mi
+    memory: 512Mi
 
 # livenessProbe:
 #   httpGet:
