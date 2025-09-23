@@ -40,7 +40,8 @@ jobs:
           HELM_VALUES_FILE: ./helm/rabbit-mq/values-${{ github.event.inputs.environment || 'dev' }}.yaml
           HELM_RELEASE_NAME: rabbit-mq
           HELM_CHART_PATH: helm/rabbit-mq
-          
-        run: helm upgrade --install $HELM_RELEASE_NAME $HELM_CHART_PATH \
+
+        run: |
+          helm upgrade --install $HELM_RELEASE_NAME $HELM_CHART_PATH \
             --namespace $KUBERNETES_NAMESPACE \
-                -f $HELM_VALUES_FILE
+            -f $HELM_VALUES_FILE
