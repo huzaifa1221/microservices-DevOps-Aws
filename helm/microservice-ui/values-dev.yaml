@@ -49,7 +49,7 @@ ingress:
   annotations: 
   hosts:
     # - host: example.com
-    - host: dev.devopsify.fun
+    - host: http://dev.devopsify.fun
       paths:
         - path: /product-service/
           pathType: Prefix
