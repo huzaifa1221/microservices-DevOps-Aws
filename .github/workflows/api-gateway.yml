@@ -68,4 +68,5 @@ jobs:
           helm upgrade --install $HELM_RELEASE_NAME $HELM_CHART_PATH \
             --set image.repository=$ECR_REGISTRY/$ECR_REPOSITORY \
             --set image.tag=$IMAGE_TAG \
+            --namespace $KUBERNETES_NAMESPACE \
             -f $HELM_VALUES_FILE
