@@ -2,6 +2,15 @@ name: rabbit-mq
 
 on:
   workflow_dispatch:
+    inputs:
+      environment:
+        description: "Select environment"
+        required: true
+        default: "dev"
+        type: choice
+        options:
+          - dev
+          - prod
 
 jobs:
   build-and-push:
@@ -27,7 +36,11 @@ jobs:
 
       - name: Deploy using Helm
         env:
-          # KUBERNETES_NAMESPACE: ${{ secrets.KUBERNETES_NAMESPACE }}
+          KUBERNETES_NAMESPACE: ${{ github.event.inputs.environment || 'dev' }}
+          HELM_VALUES_FILE: ./helm/rabbit-mq/values-${{ github.event.inputs.environment || 'dev' }}.yaml
           HELM_RELEASE_NAME: rabbit-mq
           HELM_CHART_PATH: helm/rabbit-mq
-        run: helm upgrade --install $HELM_RELEASE_NAME $HELM_CHART_PATH
+          
+        run: helm upgrade --install $HELM_RELEASE_NAME $HELM_CHART_PATH \
+            --namespace $KUBERNETES_NAMESPACE \
+                -f $HELM_VALUES_FILE

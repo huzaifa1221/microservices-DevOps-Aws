@@ -60,11 +60,10 @@ jobs:
           ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY }}
           IMAGE_TAG: api-gateway
           KUBERNETES_NAMESPACE: ${{ github.event.inputs.environment || 'dev' }}
-          HELM_RELEASE_NAME: ${{ github.event.inputs.environment || 'dev' }}
+          HELM_RELEASE_NAME: api-gateway
           HELM_CHART_PATH: helm/api-gateway
           HELM_VALUES_FILE: ./helm/api-gateway/values-${{ github.event.inputs.environment || 'dev' }}.yaml
         run: |
-          pwd
           helm upgrade --install $HELM_RELEASE_NAME $HELM_CHART_PATH \
             --set image.repository=$ECR_REGISTRY/$ECR_REPOSITORY \
             --set image.tag=$IMAGE_TAG \

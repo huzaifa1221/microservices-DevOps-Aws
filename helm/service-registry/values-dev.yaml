@@ -1,4 +1,4 @@
-# Default values for microservice-ui.
+# Default values for service-registry.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
@@ -41,53 +41,35 @@ securityContext: {}
 
 service:
   type: ClusterIP
-  port: 3000
+  port: 8761
 
 ingress:
-  enabled: true
-  className: "nginx"
-  annotations: 
+  enabled: false
+  className: ""
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
   hosts:
-    # - host: example.com
-    - host: ac2fc77e6d794450ca8559709fe51634-275708071.us-east-1.elb.amazonaws.com 
+    - host: chart-example.local
       paths:
-        - path: /product-service/
-          pathType: Prefix
-          backend:
-            service:
-              name: api-gateway
-              port:
-                number: 8000
-        - path: /offer-service/
-          pathType: Prefix
-          backend:
-            service:
-              name: api-gateway
-              port:
-                number: 8000
         - path: /
-          pathType: Prefix
-          backend:
-            service:
-              name: microservice-ui
-              port:
-                number: 3000
+          pathType: ImplementationSpecific
   tls: []
   #  - secretName: chart-example-tls
   #    hosts:
   #      - chart-example.local
 
-resources: {}
+resources:
   # We usually recommend not to specify default resources and to leave this as a conscious
   # choice for the user. This also increases chances charts run on environments with little
   # resources, such as Minikube. If you do want to specify resources, uncomment the following
   # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-  # limits:
-  #   cpu: 100m
-  #   memory: 128Mi
-  # requests:
-  #   cpu: 100m
-  #   memory: 128Mi
+  limits:
+    cpu: 100m
+    memory: 128Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi
 
 # livenessProbe:
 #   httpGet:
@@ -118,7 +100,9 @@ volumeMounts: []
 #   mountPath: "/etc/foo"
 #   readOnly: true
 
-nodeSelector: {}
+nodeSelector:
+  environment: dev
+  role: worker
 
 tolerations: []
 

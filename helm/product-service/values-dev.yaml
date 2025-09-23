@@ -1,4 +1,4 @@
-# Default values for offer-service.
+# Default values for product-service.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
@@ -41,7 +41,7 @@ securityContext: {}
 
 service:
   type: ClusterIP
-  port: 8082
+  port: 8081
 
 ingress:
   enabled: false
@@ -59,17 +59,17 @@ ingress:
   #    hosts:
   #      - chart-example.local
 
-resources: {}
+resources:
   # We usually recommend not to specify default resources and to leave this as a conscious
   # choice for the user. This also increases chances charts run on environments with little
   # resources, such as Minikube. If you do want to specify resources, uncomment the following
   # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-  # limits:
-  #   cpu: 100m
-  #   memory: 128Mi
-  # requests:
-  #   cpu: 100m
-  #   memory: 128Mi
+  limits:
+    cpu: 100m
+    memory: 128Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi
 
 # livenessProbe:
 #   httpGet:
@@ -100,7 +100,9 @@ volumeMounts: []
 #   mountPath: "/etc/foo"
 #   readOnly: true
 
-nodeSelector: {}
+nodeSelector:
+  environment: dev
+  role: worker
 
 tolerations: []
 
@@ -115,4 +117,3 @@ env:
     value: "guest"
   - name: SPRING_RABBITMQ_PASSWORD
     value: "guest"
-    

@@ -2,6 +2,15 @@ name: service-registry
 
 on:
   workflow_dispatch:
+    inputs:
+      environment:
+        description: "Select environment"
+        required: true
+        default: "dev"
+        type: choice
+        options:
+          - dev
+          - prod
   push:
     branches:
       - main
@@ -49,10 +58,14 @@ jobs:
           ECR_REGISTRY: ${{ secrets.ECR_REGISTRY }}
           ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY }}
           IMAGE_TAG: service-registry
-          # KUBERNETES_NAMESPACE: ${{ secrets.KUBERNETES_NAMESPACE }}
           HELM_RELEASE_NAME: service-registry
           HELM_CHART_PATH: helm/service-registry
+          KUBERNETES_NAMESPACE: ${{ github.event.inputs.environment || 'dev' }}
+          HELM_VALUES_FILE: ./helm/rabbit-mq/values-${{ github.event.inputs.environment || 'dev' }}.yaml
+
         run: |
           helm upgrade --install $HELM_RELEASE_NAME $HELM_CHART_PATH \
             --set image.repository=$ECR_REGISTRY/$ECR_REPOSITORY \
-            --set image.tag=$IMAGE_TAG
+            --set image.tag=$IMAGE_TAG \
+            --namespace $KUBERNETES_NAMESPACE \
+            -f $HELM_VALUES_FILE
