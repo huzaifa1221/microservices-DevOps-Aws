@@ -18,7 +18,7 @@
 - The entire Infrastructure required for the application is provisioned using Terraform on AWS.
 - The Terraform uses s3 backed to persist tfstate file.
 
-# Infratructure  -
+# Infrastructure  -
 - the resources provisioned are as follows:
     - Elastic Container Registry (ECR)
     - Elastic Kubernetes Services (EKS)
@@ -45,7 +45,7 @@
 - values-prod.yaml deploys resources in the prod nodegroup with label prod.
 - the cicd manages the seperation of namespaces for the env.
 
-# Pre- requisites for setup - 
+# Pre-requisites for setup - 
 
 - configure s3 bucket for terraform backend
 - store github secrets
