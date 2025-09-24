@@ -44,6 +44,7 @@
 - values-dev.yaml deploys resources in the dev nodegroups with label dev to keep it sepearate from the prod nodes.
 - values-prod.yaml deploys resources in the prod nodegroup with label prod.
 - the cicd manages the seperation of namespaces for the env.
+- horizontal pod autoscaling is enabled to scale as per requirement.
 
 # Pre-requisites for setup - 
 
