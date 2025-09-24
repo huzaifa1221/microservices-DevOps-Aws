@@ -1,14 +1,14 @@
-# Default values for product-service.
+# Default values for rabbit-mq.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
 replicaCount: 1
 
 image:
-  repository: ""
+  repository: rabbitmq
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: ""
+  tag: "3.12-management"
 
 imagePullSecrets: []
 nameOverride: ""
@@ -41,7 +41,19 @@ securityContext: {}
 
 service:
   type: ClusterIP
-  port: 8081
+  ports:
+    - name: amqp
+      port: 5672
+      targetPort: 5672
+    - name: management
+      port: 15672
+      targetPort: 15672
+
+# containerPorts:
+#   - name: amqp
+#     containerPort: 5672
+#   - name: management
+#     containerPort: 15672
 
 ingress:
   enabled: false
@@ -59,17 +71,17 @@ ingress:
   #    hosts:
   #      - chart-example.local
 
-resources: {}
+resources:
   # We usually recommend not to specify default resources and to leave this as a conscious
   # choice for the user. This also increases chances charts run on environments with little
   # resources, such as Minikube. If you do want to specify resources, uncomment the following
   # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-  # limits:
-  #   cpu: 100m
-  #   memory: 128Mi
-  # requests:
-  #   cpu: 100m
-  #   memory: 128Mi
+  limits:
+    cpu: 200m
+    memory: 1Gi
+  requests:
+    cpu: 200m
+    memory: 256Mi
 
 # livenessProbe:
 #   httpGet:
@@ -100,18 +112,10 @@ volumeMounts: []
 #   mountPath: "/etc/foo"
 #   readOnly: true
 
-nodeSelector: {}
+nodeSelector:
+  environment: dev
+  role: worker
 
 tolerations: []
 
 affinity: {}
-
-env:
-  - name: SPRING_RABBITMQ_HOST
-    value: "rabbit-mq"
-  - name: SPRING_RABBITMQ_PORT
-    value: "5672"
-  - name: SPRING_RABBITMQ_USERNAME
-    value: "guest"
-  - name: SPRING_RABBITMQ_PASSWORD
-    value: "guest"
