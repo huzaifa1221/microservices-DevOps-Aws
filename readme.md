@@ -1,8 +1,6 @@
-# DevOps and Infrastructure Instructions -
+# Introduction -
 
-
-
-#### This is a basic e-commerce Application based upon microservices that runs in Docker containers and is deployed to EKS cluster using helm charts whenever ci/cd pipeline gets triggered.
+#### This is a microservices based project that showcases the power and importance of DevOps in management of applications to ensure high availability and scalability with zero downtime. This project manages two environments ( dev and prod ) for now. It can easily scale to support as many environment as needed with a little tweak.
 
 #### Features -
 
@@ -13,13 +11,13 @@
 - The entire Infrastructure required for the application is provisioned using Terraform on AWS. (EKS, ECR, IAM roles and policies, VPC, SUBNETS, INTERNET GATEWAY, ROUTE TABLES)
 - The Terraform uses s3 backed to persist tfstate file.
 
-#### Ingress Architecture -
+#### Infratructure  -
 
-![ingress Screenshot](readme-images/ingress-arch.png)
+#### System Architecture -
 
-#### Kubernetes Architecture -
+![architecture svg](readme-images/system-arch.svg)
 
-![k8s Screenshot](readme-images/kubernetes-arch.png)
+#### CI/CD Architecture -
 
 # Development Instructions
 - [Development Instructions](development-readme.md)
