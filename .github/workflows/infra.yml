@@ -19,7 +19,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: infra/env/${{ github.event.inputs.environment }}
+        working-directory: Infra/env/${{ github.event.inputs.environment }}
 
     steps:
     - name: Checkout repo
