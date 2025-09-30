@@ -1,9 +1,9 @@
 resource "aws_vpc" "eks_vpc" {
-  cidr_block           = "10.0.0.0/16"
+  cidr_block           = var.vpc_cidr_block
   enable_dns_hostnames = true
   enable_dns_support   = true
   tags = {
-    Name = "eks-vpc"
+    Name = var.vpc_name
   }
 }
 
@@ -14,7 +14,7 @@ resource "aws_subnet" "eks_subnet" {
   availability_zone       = each.value.availability_zone
   map_public_ip_on_launch = true
   tags = {
-    Name = "eks-subnet-${each.key}"
+    Name = each.value.name
     env  = each.value.env
   }
 }
