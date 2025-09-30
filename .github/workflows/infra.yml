@@ -19,7 +19,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: Infra
+        working-directory: Infra/env/${{ github.event.inputs.environment }}
 
     steps:
     - name: Checkout repo
@@ -36,10 +36,8 @@ jobs:
     - name: Select workspace
       run: terraform workspace select -or-create ${{ github.event.inputs.environment }}
 
-    - name: Deploy infrastructure
-      run: |
-        cd env/${{ github.event.inputs.environment }}
-        terraform plan 
+    - name: Terraform plan
+      run: terraform plan 
 
     - name: Terraform Apply
       run: terraform apply --auto-approve 
