@@ -2,14 +2,15 @@ name: Terraform Deploy
 
 on:
   workflow_dispatch:
-    # inputs:
-    #   environment:
-    #     description: "Choose environment"
-    #     required: true
-    #     type: choice
-    #     options:
-    #       - dev
-    #       - prod
+    inputs:
+      environment:
+        description: "Choose environment"
+        required: true
+        type: choice
+        options:
+          - default
+          - dev
+          - prod
 
 jobs:
   Infrastructure-Deployment:
@@ -18,7 +19,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: Terraform
+        working-directory: infra/env/${{ github.event.inputs.environment }}
 
     steps:
     - name: Checkout repo
@@ -30,16 +31,16 @@ jobs:
         terraform_version: 1.7.5
 
     - name: Terraform Init
-      run: terraform init
+      run: terraform init --backend-config=../../backend.tf
 
-    # - name: Select workspace
-    #   run: terraform workspace select ${{ github.event.inputs.environment }}
+    - name: Select workspace
+      run: terraform workspace select ${{ github.event.inputs.environment }}
 
     - name: Terraform Plan
-      run: terraform plan --var-file=envs/env.tfvars
+      run: terraform plan 
 
     - name: Terraform Apply
-      run: terraform apply --var-file=envs/env.tfvars --auto-approve 
+      run: terraform apply --auto-approve 
 
     env:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
