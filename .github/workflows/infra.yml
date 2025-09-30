@@ -34,7 +34,7 @@ jobs:
       run: terraform init --backend-config=../../backend.tf
 
     - name: Select workspace
-      run: terraform workspace select ${{ github.event.inputs.environment }}
+      run: terraform workspace select -or-create ${{ github.event.inputs.environment }}
 
     - name: Terraform Plan
       run: terraform plan 
