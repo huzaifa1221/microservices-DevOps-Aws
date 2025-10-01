@@ -32,34 +32,7 @@
 - terraform backend is stored remotely on a s3 bucket for safety and remote access.
 - the pipeline "infra.yml" is responsible for infrastructure deployment.
 - the following tree structure shows well organised and easy to scale infrastructure management.
-    ├── env
-    │   ├── default
-    │   │   ├── backend.tf
-    │   │   ├── main.tf
-    │   │   ├── provider.tf
-    │   │   └── variables.tf
-    │   ├── dev
-    │   │   ├── backend.tf
-    │   │   ├── main.tf
-    │   │   ├── provider.tf
-    │   │   └── variables.tf
-    │   └── prod
-    │       ├── backend.tf
-    │       ├── main.tf
-    │       ├── provider.tf
-    │       └── variables.tf
-    └── modules
-        ├── ecr
-        │   ├── main.tf
-        │   └── variables.tf
-        ├── eks
-        │   ├── main.tf
-        │   ├── networking.tf
-        │   ├── roles.tf
-        │   └── variables.tf
-        └── s3
-            ├── main.tf
-            └── variables.tf
+    ![infra tree png](readme-images/infra-tree.png)
 
 # CI/CD Architecture -
 
