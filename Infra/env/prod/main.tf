@@ -3,9 +3,3 @@ module "ecr_dev"{
     name = "microservices-${var.environment}"
     image_tag_mutability = "MUTABLE"
 }
-
-module "s3"{
-    source = "../../modules/s3"
-    bucket_name = "microservices-helmcharts-${var.environment}-223586"
-    environment = var.environment
-}
