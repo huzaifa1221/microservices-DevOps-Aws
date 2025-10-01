@@ -20,7 +20,11 @@ on:
 
 jobs:
   build-and-push:
-  
+   
+    env:
+      ECR_REGISTRY: ${{ secrets.ECR_REGISTRY }}
+      ECR_REPOSITORY: microservices-${{ github.event.inputs.environment || 'dev' }}
+      IMAGE_TAG: offer-service
     runs-on: ubuntu-latest
 
     steps:
@@ -33,19 +37,19 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Extract short SHA
+        id: vars
+        run: echo "short_sha=${GITHUB_SHA::7}" >> $GITHUB_OUTPUT
           
       - name: Login to Amazon ECR
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
 
       - name: Build, Tag, and Push Docker image
-        env:
-          ECR_REGISTRY: ${{ secrets.ECR_REGISTRY }}
-          ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY }}
-          IMAGE_TAG: offer-service
         run: |
-          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG services/offer-service
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG-${{ steps.vars.outputs.short_sha }} services/offer-service
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG-${{ steps.vars.outputs.short_sha }}
 
       - name: Update kube config
         run: aws eks update-kubeconfig --name ${{ secrets.EKS_CLUSTER_NAME }} --region ${{ secrets.AWS_REGION }}
@@ -55,9 +59,6 @@ jobs:
 
       - name: Deploy using Helm
         env:
-          ECR_REGISTRY: ${{ secrets.ECR_REGISTRY }}
-          ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY }}
-          IMAGE_TAG: offer-service
           HELM_RELEASE_NAME: offer-service
           HELM_CHART_PATH: helm/offer-service
           KUBERNETES_NAMESPACE: ${{ github.event.inputs.environment || 'dev' }}
@@ -66,6 +67,6 @@ jobs:
         run: |
           helm upgrade --install $HELM_RELEASE_NAME $HELM_CHART_PATH \
             --set image.repository=$ECR_REGISTRY/$ECR_REPOSITORY \
-            --set image.tag=$IMAGE_TAG \
+            --set image.tag=$IMAGE_TAG-${{ steps.vars.outputs.short_sha }} \
             --namespace $KUBERNETES_NAMESPACE \
             -f $HELM_VALUES_FILE
