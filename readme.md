@@ -19,19 +19,47 @@
 - The Terraform uses s3 backed to persist tfstate file.
 
 # Infrastructure  -
+- The entire Infrastructure for this project is provisioned and managed using terrafrom and its best practices on AWS.
 - the resources provisioned are as follows:
     - Elastic Container Registry (ECR)
-    - Elastic Kubernetes Services (EKS)
-    - 2 Node groups for dev and prod environment ( dev node group contains 1 node & prod containes 2 nodes)
-    - IAM roles and policies for cluster and nodes.
-    - 1 vpc
-    - 3 subnets ( 1 for dev & 2 for prod in seperate AZ )
-    - Internet gateway
-    - route table
-- The entire Infrastructure for this project is provisioned and managed using terrafrom on AWS.
-- a var file is used to replicate infrastructure in a different region/account in future.
+    - Elastic Kubernetes Services (EKS) 
+        - 2 Node groups for dev and prod environment ( dev node group contains 1 node & prod containes 2 nodes)
+        - IAM roles and policies for cluster and nodes.
+        - 1 vpc
+        - 3 subnets ( 1 for dev & 2 for prod in seperate AZ )
+        - Internet gateway
+        - route table
 - terraform backend is stored remotely on a s3 bucket for safety and remote access.
 - the pipeline "infra.yml" is responsible for infrastructure deployment.
+- the following tree structure shows well organised and easy to scale infrastructure management.
+    ├── env
+    │   ├── default
+    │   │   ├── backend.tf
+    │   │   ├── main.tf
+    │   │   ├── provider.tf
+    │   │   └── variables.tf
+    │   ├── dev
+    │   │   ├── backend.tf
+    │   │   ├── main.tf
+    │   │   ├── provider.tf
+    │   │   └── variables.tf
+    │   └── prod
+    │       ├── backend.tf
+    │       ├── main.tf
+    │       ├── provider.tf
+    │       └── variables.tf
+    └── modules
+        ├── ecr
+        │   ├── main.tf
+        │   └── variables.tf
+        ├── eks
+        │   ├── main.tf
+        │   ├── networking.tf
+        │   ├── roles.tf
+        │   └── variables.tf
+        └── s3
+            ├── main.tf
+            └── variables.tf
 
 # CI/CD Architecture -
 

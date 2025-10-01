@@ -10,7 +10,6 @@ api-gateway/.gitignore
 service-registry/.gitignore
 service-registry/.mvn
 
-
 mvnw
 *.cmd
 
